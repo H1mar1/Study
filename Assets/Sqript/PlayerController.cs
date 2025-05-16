@@ -6,9 +6,13 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField]
     float speed = 3.0f;
+    [SerializeField]
+    private GameObject player;
+    [SerializeField]
+    private GameManager gameManager;
 
     private Rigidbody2D rbody2D;
-    private float jumpFprce = 200f;//ジャンプの高さ
+    private float jumpForce = 200f;//ジャンプの高さ
     private int jumpCount = 0;//ジャンプの回数
 
     private void Start()
@@ -16,6 +20,19 @@ public class PlayerController : MonoBehaviour
         rbody2D = GetComponent<Rigidbody2D>();
     }
     private void Update()
+    {
+        MovingPlayer();
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Floor"))
+        {
+            jumpCount = 0;//地面に付いたらジャンプのカウントを0にする
+        }
+    }
+
+    private void MovingPlayer()
     {
         // 右に移動
         if (Input.GetKey(KeyCode.RightArrow))
@@ -29,18 +46,16 @@ public class PlayerController : MonoBehaviour
             this.transform.position -= speed * transform.right * Time.deltaTime;
         }
         //ジャンプする
-        if (Input.GetKeyDown(KeyCode.Space) && this.jumpCount < 2)//２段ジャンプあり
+        if (Input.GetKeyDown(KeyCode.Space) && this.jumpCount < 3)//3段ジャンプあり
         {
-            this.rbody2D.AddForce(transform.up * jumpFprce);
+            this.rbody2D.AddForce(transform.up * jumpForce);
             jumpCount++;
         }
-    }
 
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Floor"))
+        //落ちたらゲームオーバー
+        if (player.transform.position.y < -6) 
         {
-            jumpCount = 0;//地面に付いたらジャンプのカウントを0にする
+            gameManager.GameOver();
         }
     }
 }
