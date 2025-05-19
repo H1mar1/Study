@@ -7,6 +7,7 @@ TagManager:
   - Floor
   - player
   - Goal
+  - Enemy
   layers:
   - Default
   - TransparentFX
