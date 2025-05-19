@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -29,6 +30,12 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Floor"))
         {
             jumpCount = 0;//地面に付いたらジャンプのカウントを0にする
+            Debug.Log("ジャンプカウントをゼロにする");
+        }
+
+        if (other.gameObject.CompareTag("Goal"))
+        {
+            Debug.Log("ゴールしました");//ゴールの判定
         }
     }
 
