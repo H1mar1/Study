@@ -36,6 +36,10 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Goal"))
         {
             Debug.Log("ゴールしました");//ゴールの判定
+            //Destroyするオブジェクトを取得
+            GameObject gameObject = GameObject.Find("Goal");
+            //指定したオブジェクトを消去
+            Destroy(gameObject);
         }
     }
 
