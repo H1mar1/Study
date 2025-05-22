@@ -33,7 +33,12 @@ public class PlayerController : MonoBehaviour
             Debug.Log("ジャンプカウントをゼロにする");
         }
 
-        if (other.gameObject.CompareTag("Goal"))
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log("敵に当たった！HP減少！！");
+        }
+
+            if (other.gameObject.CompareTag("Goal"))
         {
             Debug.Log("ゴールしました");//ゴールの判定
             //Destroyするオブジェクトを取得
