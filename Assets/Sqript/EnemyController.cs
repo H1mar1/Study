@@ -2,27 +2,23 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField]
-    Transform target;//追跡する対称（プレイヤー）
-    [SerializeField]
-    private float speed;//移動速度
-
-    Rigidbody2D rb;
+    Transform playerTr;//プレイヤーのTransform
+    [SerializeField] float speed;//敵の動くスピード
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();//Rigidbody2Dを所得
+        //プレイヤーのTransformを所得
+        playerTr = GameObject.FindGameObjectWithTag("player").transform;
     }
 
     private void Update()
     {
-        if (target == null) return;
+        //プレイヤーとの教理が0.1未満になったらそれを実行しない
+        if (Vector2.Distance(transform.position, playerTr.position) < 0.1f)
+            return;
 
-        //プレイヤーの方向を取得
-        Vector2 direction = (Vector2)target.position - rb.position;
-        direction.Normalize();
-
-        //前進
-        rb.linearVelocity = Vector2.left * speed;
+        //プレイヤーに向けて動く
+        transform.position = Vector2.MoveTowards(
+            transform.position, new Vector2(playerTr.position.x, playerTr.position.y), speed * Time.deltaTime);
     }
 }
